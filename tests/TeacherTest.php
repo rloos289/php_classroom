@@ -132,6 +132,24 @@
 
             $this->assertEquals([$test_student],$result);
         }
+
+        function test_deleteStudent()
+        {
+            $student_name = "Billy";
+            $gpa = 3.1;
+            $test_student = new Student($student_name, $gpa);
+            $test_student->save();
+            $teacher_name = "Mr. Garrison";
+            $subject = "math";
+            $test_teacher = new Teacher($teacher_name, $subject);
+            $test_teacher->save();
+
+            $test_teacher->addStudent($test_student);
+            $test_teacher->deleteStudent($test_student);
+            $result = $test_teacher->getStudentList();
+
+            $this->assertEquals([],$result);
+        }
     }
 
       // Testcode example

@@ -58,6 +58,11 @@
             $GLOBALS['DB']->exec("INSERT INTO teachers_students (student_id, teacher_id) VALUES ({$student->getId()}, {$this->id});");
         }
 
+        function deleteStudent($student)
+        {
+            $GLOBALS['DB']->exec("DELETE FROM teachers_students WHERE teacher_id = {$this->id} AND student_id = {$student->getId()};");
+        }
+
         function getStudentList()
         {
             $students = array();
