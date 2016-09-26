@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href='/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+        <title>{{ student.getName }}</title>
+    </head>
+    <body>
+        <div class='container'>
+            <h1>{{ student.getName }}</h1>
+            <hr>
+            <h4>Current teachers:</h4>
+            {% for teacher in teachers %}
+            <li>{{ teacher.getName }}</li>
+            {% endfor %}
+            <hr>
+            <h4>Add a teacher:</h4>
+            <form action="/student/{{ student.getId }}" method="post">
+                <select name="teacher_id">
+                    {% for teacher in all_teachers %}
+                        <option value={{ teacher.getId }}> {{ teacher.getName }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" name="button">Add teacher</button>
+            </form>
+            <hr>
+
+            <h4>Delete a teacher:</h4>
+            <form action="/student/{{ student.getId }}" method="post">
+                <input type='hidden' name='_method' value='delete' />
+                <select name="teacher_id">
+                    {% for teacher in teachers %}
+                        <option value={{ teacher.getId }}> {{ teacher.getName }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" name="button">Delete teacher</button>
+            </form>
+
+        </div>
+    </body>
+</html>

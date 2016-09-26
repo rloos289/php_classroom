@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href='css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+        <title>Students</title>
+    </head>
+    <body>
+        <div class='container'>
+            <h1>Current Students:</h1>
+            <hr>
+            <ul>
+                {% for student in students %}
+                    <li><a href='/student/{{student.getId}}'>{{ student.getName }}</a></li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <h4>Add a new student:</h4>
+            <form method='post' action='/students'>
+                <input type='text' name='student_name' placeholder='Student Name' />
+                <input type='number' name='gpa' placeholder='Student GPA' />
+                <button type='submit'>Submit New Student</button>
+            </form>
+        </div>
+    </body>
+</html>

@@ -23,6 +23,9 @@
 
     $app = new Silex\Application();
 
+    use Symfony\Component\HttpFoundation\Request;
+    Request::enableHttpMethodParameterOverride();
+
     $app['debug'] = true;
 
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
@@ -47,14 +50,16 @@
         $gpa = $_POST['gpa'];
         $new_student = new Student ($name, $gpa);
         $new_student->save();
-        return $app['twig']->render("/students.html.twig", array('students' => Student::getAll()));
+        return $app->redirect('/students');
+        // return $app['twig']->render("/students.html.twig", array('students' => Student::getAll()));
     });
 
     $app->delete("/students/{student_id}", function($student_id) use ($app) {
         // remove a students from the database
         $student = Student::find($student_id);
         $student->delete();
-        return $app['twig']->render("/students.html.twig", array('students' => Student::getAll()));
+        return $app->redirect('/students');
+        // return $app['twig']->render("/students.html.twig", array('students' => Student::getAll()));
     });
 
     // $app->patch("/students", function() use ($app) {
@@ -74,14 +79,16 @@
         $subject = $_POST['subject'];
         $new_teacher = new Teacher($name, $subject);
         $new_teacher->save();
-        return $app['twig']->render("/teachers.html.twig", array('teachers' => Teacher::getAll()));
+        return $app->redirect('/teachers');
+        // return $app['twig']->render("/teachers.html.twig", array('teachers' => Teacher::getAll()));
     });
 
     $app->delete("/teachers/{teacher_id}", function($teacher_id) use ($app) {
         // remove a teachers from the database
         $teacher = Teacher::find($teacher_id);
         $teacher->delete();
-        return $app['twig']->render("/teachers.html.twig", array('teachers' => Teacher::getAll()));
+        return $app->redirect('/teachers');
+        // return $app['twig']->render("/teachers.html.twig", array('teachers' => Teacher::getAll()));
     });
     // $app->patch("/teachers", function() use ($app) {
     //     // changing a teacher in the database
@@ -93,7 +100,7 @@
         // display all teachers linked to an individual student
         $student = Student::find($student_id);
         $teachers = $student->getTeacherList();
-        return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student));
+        return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student, 'all_teachers' => Teacher::getAll()));
     });
 
     $app->post("/student/{student_id}", function ($student_id) use ($app) {
@@ -102,8 +109,9 @@
         $teacher_id = $_POST['teacher_id'];
         $teacher = Teacher::find($teacher_id);
         $student->addTeacher($teacher);
-        $teachers = $student->getTeacherList();
-        return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student));
+        return $app->redirect('/student/' . $student.getId());
+        // $teachers = $student->getTeacherList();
+        // return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student, 'all_teachers' => Teacher::getAll()));
     });
 
     $app->delete("/student/{student_id}", function ($student_id) use ($app) {
@@ -112,8 +120,9 @@
         $teacher_id = $_POST['teacher_id'];
         $teacher = Teacher::find($teacher_id);
         $student->deleteTeacher($teacher);
-        $teachers = $student->getTeacherList();
-        return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student));
+        return $app->redirect('/student/' . $student.getId());
+        // $teachers = $student->getTeacherList();
+        // return $app['twig']->render("student.html.twig", array('teachers' => $teachers, 'student' => $student, 'all_teachers' => Teacher::getAll()));
     });
 
 // Teacher (singular) page
@@ -121,7 +130,7 @@
         // display all students linked to an individual teacher
         $teacher = Teacher::find($teacher_id);
         $students = $teacher->getStudentList();
-        return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students));
+        return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students, 'all_students' => Student::getAll()));
     });
 
     $app->post("/teacher/{teacher_id}", function ($teacher_id) use ($app) {
@@ -130,8 +139,9 @@
         $student_id = $_POST['student_id'];
         $student = Student::find($student_id);
         $teacher->addStudent($student);
-        $students = $teacher->getStudentList();
-        return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students));
+        return $app->redirect('/teacher/' . $teacher.getId());
+        // $students = $teacher->getStudentList();
+        // return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students, 'all_students' => Student::getAll()));
         // return $app->redirect('/teacher/' . $teacher_id);
     });
 
@@ -141,8 +151,9 @@
         $student_id = $_POST['student_id'];
         $student = Student::find($student_id);
         $teacher->deleteStudent($student);
-        $students = $teacher->getStudentList();
-        return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students));
+        return $app->redirect('/teacher/' . $teacher.getId());
+        // $students = $teacher->getStudentList();
+        // return $app['twig']->render("teacher.html.twig", array('teacher' => $teacher, 'students' => $students, 'all_students' => Student::getAll()));
     });
 
     return $app;
