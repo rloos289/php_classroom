@@ -1,12 +1,8 @@
-# _{Application Name}_
+# _Classroom organizer_
 
-#### _{Brief description of application}, {Date of current version}_
+#### _Allows users to create many to many relationships between students and teachers in a school_
 
 #### By _**Ryan Loos**_
-
-## Description
-
-_{This is a detailed description of your application. Its purpose and usage.  Give as much detail as needed to explain what the application does, and any other information you want users or other developers to have. }_
 
 ## Setup/Installation Requirements
 
@@ -19,10 +15,6 @@ _{This is a detailed description of your application. Its purpose and usage.  Gi
 * _change sourcing to tests_
 
 _You must host this webpage locally_
-
-## Behavior Driven Development
-
-* _template_
 
 ## Known Bugs
 
